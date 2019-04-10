@@ -30,10 +30,10 @@ Our goal is to provide an intuitive web interface for the Accountability Counsel
 ## Who We Are
 Member | Email | Bio
 --- | --- | ---
-Sofia Avila | sofiaaj@stanford.edu | Sofia is a sophomore studying Symbolic Systems.
-Alexandra Camargo | acamarg2@stanford.edu | TODO
-Claire Huang | chuang20@stanford.edu | Claire is a junior studying computer science... TODO
-Tyler Vo | tylervo@stanford.edu | TODO
+Sofia Avila | sofiaaj@stanford.edu | Symbolic Systems, 2021
+Alexandra Camargo | acamarg2@stanford.edu | Human Biology & Computer Science, 2020
+Claire Huang | chuang20@stanford.edu | Computer Science, 2020 
+Tyler Vo | tylervo@stanford.edu | Computer Science, 2021
 
 ## Our Development Timeline
 Week | Milestone | Details | Status
