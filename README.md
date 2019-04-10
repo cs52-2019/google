@@ -36,9 +36,9 @@ Claire Huang | chuang20@stanford.edu | Computer Science, 2020
 Tyler Vo | tylervo@stanford.edu | Computer Science, 2021
 
 ## Our Development Timeline
-Week | Milestone | Details | Status
---- | --- | --- | ---
-2 | Framework rough draft; Django tutorials | Discuss rough ideas for necessary frontend pages/components and database schema. Begin setting them up as scaffolding in code. | :construction: In progress
+Week | Milestone | Status
+--- | --- | --- 
+2 | Framework rough draft; Django tutorials. Discuss rough ideas for necessary frontend pages/components and database schema. Begin setting them up as scaffolding in code. | :construction: In progress
 3 | New Case. Front-end: Develop front-end of new case showcasing description + ability to add new analyses. Back-end: Create new case object based on parameters. 
 4 | New Analyses Front-End: Analysis attributes input form. Visuaalize Earth Engine data. 
 5 | New Analyses Back-End: Retrieve initial data and historical data of object. Transform data for visualization. 
