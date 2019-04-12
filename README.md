@@ -30,22 +30,22 @@ Our goal is to provide an intuitive web interface for the Accountability Counsel
 ## Who We Are
 Member | Email | Bio
 --- | --- | ---
-Sofia Avila | sofiaaj@stanford.edu | TODO
-Alexandra Camargo | acamarg2@stanford.edu | TODO
-Claire Huang | chuang20@stanford.edu | Claire is a junior studying computer science... TODO
-Tyler Vo | tylervo@stanford.edu | TODO
+Sofia Avila | sofiaaj@stanford.edu | Symbolic Systems, 2021
+Alexandra Camargo | acamarg2@stanford.edu | Human Biology & Computer Science, 2020
+Claire Huang | chuang20@stanford.edu | Computer Science, 2020 
+Tyler Vo | tylervo@stanford.edu | Computer Science, 2021
 
 ## Our Development Timeline
-Week | Milestone | Details | Status
---- | --- | --- | ---
-2 | Framework rough draft; Django tutorials | Discuss rough ideas for necessary frontend pages/components and database schema. Begin setting them up as scaffolding in code. | :construction: In progress
-3 | Rudimentary page flow + database; Earth Engine API calls | Prototype Earth Engine API calls with our desired parameters (location, time, datasets) in a standalone Javascript and then Python script. Probably ask GEE mentors for help. |
-4 | Current case landing and case details; Earth Engine API calls |  |
-5 | Current case new analysis; Earth Engine integration | |
-6 | Current case new analysis | |
-7 | Current case new analysis, analysis details | |
-8 | New case, past cases | |
-9 | Buffer time | |
+Week | Milestone | Status
+--- | --- | --- 
+2 | Framework rough draft; Django tutorials. Discuss rough ideas for necessary frontend pages/components and database schema. Begin setting them up as scaffolding in code. | :construction: In progress
+3 | New Case. Front-end: Develop front-end of new case showcasing description + ability to add new analyses. Back-end: Create new case object based on parameters. 
+4 | New Analyses Front-End: Analysis attributes input form. Visuaalize Earth Engine data. 
+5 | New Analyses Back-End: Retrieve initial data and historical data of object. Transform data for visualization. 
+6 | New Analyses Back-End: Creating an updater method to update these case analayses. 
+7 | Analysis details back-end: Retrieve analysis object info. 
+8 | Analysis details front-end: Interactive time series data display. 
+9 | User testing, meet with AC and Google partners. 
 10 | Prepare for showcase! | |
 
 ## Acknowledgements
