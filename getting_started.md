@@ -24,7 +24,7 @@ To run the Django backend, you will need Python 3, `pip`, and `virtualenv`. `pip
 Now we'll create a Python virtual environment for this project. You only need to create it once. From the command line, navigate to where the repository has been cloned on your computer. Then run:
 
 ```
-python3 -m virtualenv .env
+python3 -m virtualenv env
 source env/bin/activate
 ```
 
