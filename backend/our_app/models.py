@@ -6,7 +6,7 @@ class Case(models.Model):
 		max_length = 7
 	)
 	title = models.CharField(max_length = 200)
-	image = models.ImageField(upload_to = 'cases')
+	image = models.ImageField(upload_to='images/')
 
 class Analysis(models.Model):
 	title = models.CharField(max_length = 200)

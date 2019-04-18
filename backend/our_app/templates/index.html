@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Home</title>
+
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+	<!-- App-wide styles -->
+	<link rel="stylesheet" type="text/css" href="{% static 'css/app.css' %}?{% now 'U' %}">
+
+	<!-- Font -->
+	<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+</head>
+
+<body>
+<div class="d-flex align-items-center" style="height: 100vh;">
+	<div class="container">
+		<div class="row">
+			<h1 class="mx-auto">Accountability Counsel</h1>
+		</div>
+
+		<div class="row">
+			<div class="col-4 mx-auto">
+				<a class="btn btn-outline-primary btn-block" href="">New Case</a>
+				<a class="btn btn-outline-primary btn-block" href="/currentcases">Current Cases</a>
+				<a class="btn btn-outline-primary btn-block" href="">Past Cases</a>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+
+</html>

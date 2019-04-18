@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="content card-deck">
+	{% for case in cases %}
+		<div class="card case-card">
+			<img class="card-img-top" src="{{ case.image.url }}">
+			<div class="card-body">
+				<h5 class="card-title">{{ case.title }}</h5>
+			</div>
+		</div>
+	{% endfor %}
+</div>
+{% endblock %}
