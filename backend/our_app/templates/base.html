@@ -23,9 +23,9 @@
 	  </a>
 	  <div class="collapse navbar-collapse justify-content-end">
 	    <ul class="navbar-nav">
-  			<a class="nav-item nav-link" href="/currentcases">Current Cases</a>
-  			<a class="nav-item nav-link" href="#">Previous Cases</a>
-  			<a class="nav-item nav-link" href="#">New Case</a>
+  			<a class="nav-item nav-link" href="{% url 'current_cases' %}">Current Cases</a>
+  			<a class="nav-item nav-link" href="{% url 'past_cases' %}">Past Cases</a>
+  			<a class="nav-item nav-link" href="{% url 'new_case' %}">New Case</a>
 	    </ul>
 	  </div>
 	</nav>
