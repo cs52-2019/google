@@ -1,0 +1,28 @@
+/* General styling */
+body {
+	font-family: 'Ubuntu', sans-serif;
+  font-size: 1rem;
+}
+
+/* New analysis popup */
+div#new-analysis-popup {
+  margin-top: 15px;
+}
+
+div#new-analysis-popup h1 {
+  margin-bottom: 1rem;
+}
+
+div#new-analysis-popup div.form-group {
+  width: 100%;
+}
+
+div#new-analysis-popup form {
+  width: 100%;
+}
+
+div.date-picker input {
+  border: 1px solid #ced4da;
+  border-radius: .25rem;
+  padding: .375rem .75rem;
+}
