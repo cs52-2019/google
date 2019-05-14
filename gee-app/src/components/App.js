@@ -1,12 +1,12 @@
 import React from 'react';
 
-import NewAnalysisPopup from './NewAnalysisPopup.js'
+import CasePage from './CasePage.js'
 
 class App extends React.Component {
   render() {
     return(
       <div>
-        <NewAnalysisPopup/>
+        <CasePage/>
       </div>
     );
   }

@@ -10,3 +10,6 @@ local_settings.py
 
 env/
 db.sqlite3
+
+gee_backend_test2/*
+backend/*

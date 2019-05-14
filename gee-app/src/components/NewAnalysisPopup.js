@@ -23,6 +23,7 @@ const FREQUENCIES = [
 class NewAnalysisPopup extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       mapLocation: {
         lat: 48.611639, // Ukraine
@@ -72,8 +73,10 @@ class NewAnalysisPopup extends React.Component {
   handleSave(e) {
     e.preventDefault();
     console.log("SAVING");
+    console.log(this.state.mapStartDate);
+    console.log(this.state.mapEndDate);
 
-    const analysisDB = firebase.database().ref('analyses');
+    const currCase = firebase.database().ref('cases').child("-LeUAC_DGuK-2ZoRiQHM").child("analyses"); // TODO: unhardcode
     const analysis = {
       mapLocation: this.state.mapLocation,
       mapFilter: this.state.mapFilter,
@@ -82,18 +85,16 @@ class NewAnalysisPopup extends React.Component {
       mapFrequency: this.state.mapFrequency,
     };
     console.log(analysis);
-    analysisDB.push(analysis);
+    currCase.push(analysis);
   }
 
   render() {
     return(
-      <div id="new-analysis-popup">
+      <div id="new-analysis-content">
         <Container>
           <Row>
-            <h1>Create New Analysis</h1>
+            <h1>Create new analysis</h1>
           </Row>
-
-
 
           <Row>
             <Col sm={4}>
