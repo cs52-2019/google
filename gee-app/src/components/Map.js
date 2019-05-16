@@ -56,7 +56,7 @@ class Map extends React.Component {
     // Options for base Google Maps map
     const mapOptions = {
       center: this.props.location,
-      zoom: 8,
+      zoom: this.props.zoom,
       mapTypeId: "hybrid",
       mapTypeControl: false,
       zoomControl: true,
@@ -70,10 +70,9 @@ class Map extends React.Component {
     }
     this.map = new window.google.maps.Map(document.getElementById("map"), mapOptions);
 
-    // this.map.addListener("bounds_changed", () => {
-    //   let bounds = this.state.map.getBounds();
-    //   console.log(bounds);
-    // });
+    this.map.addListener("bounds_changed", () => {
+      this.props.onBoundsChange(this.map.getCenter(), this.map.getZoom());
+    });
 
     // this.loadEEHandler("d4fe9ece09ecb967b2fb3c4145723001", "8b393c7d898d21ff94146e1f56e3d2e0");
     this.runEEQuery();

@@ -1,7 +1,8 @@
 import React from 'react';
 
-import NewAnalysisPopup           from './NewAnalysisPopup.js'
-import VerticallyCenteredModal    from './VerticallyCenteredModal'
+import NewAnalysisPopup           from '../components/NewAnalysisPopup.js'
+import VerticallyCenteredModal    from '../components/VerticallyCenteredModal'
+import AnalysisCard               from '../components/AnalysisCard'
 
 import { GoPlus }                 from 'react-icons/go'
 import Button                     from 'react-bootstrap/Button';
@@ -9,7 +10,7 @@ import Container                  from 'react-bootstrap/Container';
 import Row                        from 'react-bootstrap/Row';
 import Col                        from 'react-bootstrap/Col';
 
-import firebase     from '../firebase.js';
+import firebase                   from '../firebase.js';
 
 class CasePage extends React.Component {
   constructor(props) {
@@ -27,16 +28,18 @@ class CasePage extends React.Component {
   }
 
   componentWillMount() {
-    const cases = firebase.database().ref('cases');
-    cases.limitToFirst(1).on("value", (snapshot) => {
-      var keys = Object.keys(snapshot.val());
-      var obj = snapshot.val()[keys[0]]; // TODO: un-hardcode
+    // Load case data from database and store in state
+    const cases = firebase.database().ref(`cases/${this.props.match.params.caseId}`);
+    cases.on('value', (snapshot) => {
+      var currCase = snapshot.val();
+      if (currCase == null) return;
+
       this.setState({
-        title: obj.title,
-        description: obj.description,
-        analyses: obj.analyses,
-      });
-    })
+        title: currCase.title,
+        description: currCase.description,
+        analyses: currCase.analyses || {},
+      })
+    });
   }
 
   // Modal handlers
@@ -49,19 +52,27 @@ class CasePage extends React.Component {
   }
 
   render() {
+    console.log(`CasePage:`);
+    console.log(this.props);
     return (
       <div>
         <Container>
           <Row>
             <Col>
               <h2>{this.state.title}</h2>
+            </Col>
+          </Row>
+
+          <Row>
+            <Col>
+              <h3>Case description</h3>
               <p>{this.state.description}</p>
             </Col>
           </Row>
 
           <Row>
             <Col>
-              <h2>Current analyses</h2>
+              <h3>Current analyses</h3>
             </Col>
 
             <Col className="text-right">
@@ -75,7 +86,10 @@ class CasePage extends React.Component {
             {
               Object.keys(this.state.analyses).map(id => (
                 <Col lg="4">
-                  {this.state.analyses[id].mapFilter}
+                  <AnalysisCard
+                    analysis={this.state.analyses[id]}
+                    url={`${this.props.match.url}/${id}`}
+                  />
                 </Col>
               ))
             }
@@ -89,7 +103,10 @@ class CasePage extends React.Component {
           show={this.state.showModal}
           onHide={this.handleCloseModal}
         >
-          <NewAnalysisPopup/>
+          <NewAnalysisPopup
+            caseId={this.props.caseId}
+            onSave={this.handleCloseModal.bind(this)}
+          />
         </VerticallyCenteredModal>
       </div>
     );

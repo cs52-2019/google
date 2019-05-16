@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM  from "react-dom";
 
 import Map               from './Map.js'
 import InlineDatePicker  from './Inputs/InlineDatePicker.js'
@@ -13,6 +14,7 @@ import Form         from 'react-bootstrap/Form';
 import Button       from 'react-bootstrap/Button';
 
 import firebase     from '../firebase.js';
+var moment = require('moment');
 
 const FREQUENCIES = [
   'Every day',
@@ -24,68 +26,75 @@ class NewAnalysisPopup extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      mapLocation: {
+    // Analysis info that doesn't require map refresh
+    this.analysisInfo = {
+      // TODO: mapCenter and mapZoom should come from database
+      mapCenter: {
         lat: 48.611639, // Ukraine
         lng: 29.178028  // Ukraine
       },
-      mapFilter: 'Satellite',
-      mapStartDate: new Date(),
-      mapEndDate: new Date(),
-      mapFrequency: 'Every day',
+      mapZoom: 8,
+      startDate: new Date(),
+      endDate: new Date(),
+      frequency: 'Every day',
+    }
+
+    // Analysis info that _does_ require map refresh
+    this.state = {
+      filter: 'Satellite',
+      mapSearchLocation: this.analysisInfo.mapCenter,
     }
   }
 
-  handleLocationChange(location) {
+  handleSearchLocationChange(location) {
     this.setState({
-      mapLocation: location
+      mapSearchLocation: location
     });
   }
 
   handleFilterChange(filter) {
-    console.log(`filter = ${filter}`);
     this.setState({
-      mapFilter: filter
+      filter: filter
     });
   }
 
   handleStartDateChange(date) {
-    console.log(`start date = ${date}`);
-    this.setState({
-      mapStartDate: date
-    });
+    this.analysisInfo.startDate = date;
   }
 
   handleEndDateChange(date) {
-    console.log(`end date = ${date}`);
-    this.setState({
-      mapEndDate: date
-    });
+    this.analysisInfo.endDate = date;
   }
 
   handleFrequencyChange(freq) {
-    console.log(`freq = ${freq}`);
-    this.setState({
-      mapFrequency: freq
-    })
+    this.analysisInfo.frequency = freq;
+  }
+
+  handleBoundsChange(center, zoom) {
+    this.analysisInfo.mapZoom = zoom;
+    this.analysisInfo.mapCenter = {
+      lat: center.lat(),
+      lng: center.lng()
+    }
   }
 
   handleSave(e) {
     e.preventDefault();
-    console.log("SAVING");
-    console.log(this.state.mapStartDate);
-    console.log(this.state.mapEndDate);
 
-    const currCase = firebase.database().ref('cases').child("-LeUAC_DGuK-2ZoRiQHM").child("analyses"); // TODO: unhardcode
+    const analyses = firebase.database().ref(`cases/${this.props.caseId}/analyses`);
     const analysis = {
-      mapLocation: this.state.mapLocation,
-      mapFilter: this.state.mapFilter,
-      mapStartDate: this.state.mapStartDate,
-      mapEndDate: this.state.mapEndDate,
-      mapFrequency: this.state.mapFrequency,
+      name: ReactDOM.findDOMNode(this.refs.analysisName).value,
+      mapCenter: this.analysisInfo.mapCenter,
+      mapZoom: this.analysisInfo.mapZoom,
+      filter: this.state.filter,
+      startDate: moment(this.analysisInfo.startDate).toISOString(),
+      endDate: moment(this.analysisInfo.endDate).toISOString(),
+      frequency: this.analysisInfo.frequency,
     };
     console.log(analysis);
-    currCase.push(analysis);
+    analyses.push(analysis);
+
+    this.props.onSave();
   }
 
   render() {
@@ -101,15 +110,19 @@ class NewAnalysisPopup extends React.Component {
               <Form onSubmit={this.handleSave.bind(this)}>
 
                 <Form.Group>
+                  <Form.Control ref="analysisName" placeholder="Name"/>
+                </Form.Group>
+
+                <Form.Group>
                   <LocationSearchBar
-                    location={this.state.mapLocation}
-                    onChange={this.handleLocationChange.bind(this)}
+                    location={this.state.mapSearchLocation}
+                    onChange={this.handleSearchLocationChange.bind(this)}
                   />
                 </Form.Group>
 
                 <Form.Group>
                   <FilterRadios
-                    initialFilter={this.state.mapFilter}
+                    initialFilter={this.state.filter}
                     onChange={this.handleFilterChange.bind(this)}
                   />
                 </Form.Group>
@@ -118,14 +131,14 @@ class NewAnalysisPopup extends React.Component {
                   <InlineDatePicker
                     leftCol={4}
                     rightCol={8}
-                    initialDate={this.state.mapStartDate}
+                    initialDate={this.analysisInfo.startDate}
                     label="Start date"
                     onChange={this.handleStartDateChange.bind(this)}
                   />
                   <InlineDatePicker
                     leftCol={4}
                     rightCol={8}
-                    initialDate={this.state.mapEndDate}
+                    initialDate={this.analysisInfo.endDate}
                     label="End date"
                     onChange={this.handleEndDateChange.bind(this)}
                   />
@@ -133,7 +146,7 @@ class NewAnalysisPopup extends React.Component {
                     leftCol={4}
                     rightCol={8}
                     label="Frequency"
-                    initialOption={this.state.mapFrequency}
+                    initialOption={this.analysisInfo.frequency}
                     options={FREQUENCIES}
                     onChange={this.handleFrequencyChange.bind(this)}
                   />
@@ -149,8 +162,10 @@ class NewAnalysisPopup extends React.Component {
 
             <Col sm={8}>
               <Map
-                location={this.state.mapLocation}
-                filter={this.state.mapFilter}
+                location={this.state.mapSearchLocation}
+                filter={this.state.filter}
+                zoom={this.analysisInfo.mapZoom}
+                onBoundsChange={this.handleBoundsChange.bind(this)}
               />
             </Col>
           </Row>

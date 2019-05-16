@@ -18,7 +18,6 @@ class InlineDatePicker extends React.Component {
   }
 
   handleDateChange(date) {
-    console.log(date);
     this.setState({
       date: date
     });
