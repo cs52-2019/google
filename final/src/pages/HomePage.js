@@ -1,4 +1,9 @@
 import React from 'react';
+import {Link as RouterLink} from 'react-router-dom';
+import {
+  Link
+} from '@material-ui/core';
+
 
 class HomePage extends React.Component {
   constructor(props) {
@@ -7,7 +12,11 @@ class HomePage extends React.Component {
 
 	render() {
     return(
-      <h3>Placeholder homepage</h3>
+      <div>
+        <Link component = {RouterLink} to = {"/cases/"}> Current Cases</Link>
+        <Link component = {RouterLink} to = {"/pastcases/"}> Past Cases</Link>
+        <Link component = {RouterLink} to = {"/newcases/"}> New Cases</Link>    
+      </div>
     );
   }
 }
