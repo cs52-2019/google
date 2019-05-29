@@ -31,7 +31,7 @@ class Main extends React.Component {
                 {/* Example: localhost:3000/cases, localhost:3000/pastcases */}
                 <Route exact path="/cases/" component={CasesPage} />
                 <Route exact path="/pastcases/" component={CasesPage} />
-                <Route exact path="/newcases/" component={NewPage} />
+                <Route exact path="/newcase/" component={NewPage} />
 
                 {/* Example: localhost:3000/cases/ukraine/1234 */}
                 <Route

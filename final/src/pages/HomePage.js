@@ -15,7 +15,7 @@ class HomePage extends React.Component {
       <div>
         <Link component = {RouterLink} to = {"/cases/"}> Current Cases</Link>
         <Link component = {RouterLink} to = {"/pastcases/"}> Past Cases</Link>
-        <Link component = {RouterLink} to = {"/newcases/"}> New Cases</Link>    
+        <Link component = {RouterLink} to = {"/newcase/"}> New Cases</Link>    
       </div>
     );
   }

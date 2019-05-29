@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import {Link}               from "react-router-dom"
 
 class NavBar extends Component {
   styles = {
@@ -39,20 +40,14 @@ class NavBar extends Component {
           style={{ margin: "40px" }}
         >
           <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-            <li class="nav-item active">
-              <a class="nav-link" href="#">
-                Past Cases <span class="sr-only">(current)</span>
-              </a>
+            <li class="nav-item">
+              <Link class="nav-link" to="/pastcases">Past Cases</Link>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">
-                Current Cases
-              </a>
+              <Link class="nav-link" to="/cases">Current Cases</Link>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#" tabindex="-1" aria-disabled="false">
-                New Case
-              </a>
+              <Link class="nav-link" to="/newcase">New Case</Link>
             </li>
           </ul>
         </div>
