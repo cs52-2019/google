@@ -34,7 +34,7 @@ class Map extends React.Component {
 
   waitForEEAuth() {
     var token = ee.data.getAuthToken();
-    console.log(`EE token: ${token}`);
+    // console.log(`EE token: ${token}`);
     if (token) {
       console.log("Done waiting for EE authentication.")
       this.setState({render: true});
