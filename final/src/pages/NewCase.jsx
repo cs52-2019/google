@@ -89,25 +89,7 @@ class NewCase extends React.Component {
 
   render() {
     return(
-      <div id="new-analysis-popup">
-      <nav>
-        <div id="logo">
-          <img src="https://www.lawctopus.com/wp-content/uploads/2017/12/Accountability-Counsel-Logo-1024x261.jpg" />
-        </div>
-        <ul>
-          <li>
-            <a href="#" class="active">
-              Past Cases
-            </a>
-          </li>
-          <li>
-            <a href="#">Current Cases</a>
-          </li>
-          <li>
-            <a href="#">New Case</a>
-          </li>
-        </ul>
-      </nav>
+      <div id="new-case">
         <Container>
           <Row>
             <h1>Enter New Case</h1>
@@ -116,10 +98,10 @@ class NewCase extends React.Component {
             <Col sm={4}>
             <Form>
             <Form.Row>
-              <Col sm={4}>
+              <Col>
                 <Form.Label>Case Title:</Form.Label>
               </Col>
-              <Col sm={8}>
+              <Col>
                 <Form.Control ref="caseTitle" placeholder="Case Title" />
               </Col>
             </Form.Row>
@@ -138,6 +120,8 @@ class NewCase extends React.Component {
                   <Form.Label>Case Description</Form.Label>
                   <Form.Control ref="caseDescription" as="textarea" rows="3" />
                 </Form.Group>
+
+                
 
                 <Form.Group>
                   <LocationSearchBar
