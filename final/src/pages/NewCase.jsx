@@ -34,12 +34,30 @@ class NewCase extends React.Component {
       caseDescription: 'None',
       mapFrequency: 'Every day',
     }
+
+    // Analysis info that doesn't require map refresh
+    this.analysisInfo = {
+      // TODO: mapCenter and mapZoom should come from database
+      mapCenter: {
+        lat: 48.611639, // Ukraine
+        lng: 29.178028  // Ukraine
+      },
+      mapZoom: 8
+    }
   }
 
   handleLocationChange(location) {
     this.setState({
       mapLocation: location
     });
+  }
+
+  handleBoundsChange(center, zoom) {
+    this.analysisInfo.mapZoom = zoom;
+    this.analysisInfo.mapCenter = {
+      lat: center.lat(),
+      lng: center.lng()
+    }
   }
 
   handleFilterChange(filter) {
@@ -79,7 +97,8 @@ class NewCase extends React.Component {
     const caseName = ReactDOM.findDOMNode(this.refs.caseTitle).value
     firebase.database().ref('cases/' + caseName).set({
       caseDescription: ReactDOM.findDOMNode(this.refs.caseDescription).value,
-      mapLocation: this.state.mapLocation,
+      mapCenter: this.analysisInfo.mapCenter,
+      mapZoom: this.analysisInfo.mapZoom,
       mapFilter: this.state.mapFilter,
       mapStartDate: this.state.mapStartDate,
       mapFrequency: this.state.mapFrequency,
@@ -121,7 +140,7 @@ class NewCase extends React.Component {
                   <Form.Control ref="caseDescription" as="textarea" rows="3" />
                 </Form.Group>
 
-                
+
 
                 <Form.Group>
                   <LocationSearchBar
@@ -146,6 +165,7 @@ class NewCase extends React.Component {
               <Map
                 location={this.state.mapLocation}
                 filter={this.state.mapFilter}
+                onBoundsChange={this.handleBoundsChange.bind(this)}
               />
             </Col>
           </Row>
