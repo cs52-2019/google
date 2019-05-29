@@ -1,5 +1,6 @@
-import React                      from 'react';
-import firebase                   from '../firebase.js';
+import React from "react";
+import firebase from "../firebase.js";
+import Counters from "../components/currentCases/counters";
 
 class CasesPage extends React.Component {
   constructor(props) {
@@ -21,20 +22,28 @@ class CasesPage extends React.Component {
   */
   componentWillMount() {
     // Get reference to "cases/" path in database
-    const cases = firebase.database().ref('cases');
+    const cases = firebase.database().ref("cases");
     // Get actual data from that reference
-    cases.on('value', snapshot => {
+    cases.on("value", snapshot => {
       var allCases = snapshot.val();
-      console.log("These are all the cases from the Firebase database. It should look like a large object; you can open it up and look inside too.");
+      console.log(
+        "These are all the cases from the Firebase database. It should look like a large object; you can open it up and look inside too."
+      );
       console.log(allCases);
-      console.log("This is us looping through the list of all the keys (case titles)");
-      Object.keys(allCases).forEach(key => {console.log(key)});
-    })
+      console.log(
+        "This is us looping through the list of all the keys (case titles)"
+      );
+      Object.keys(allCases).forEach(key => {
+        console.log(key);
+      });
+    });
   }
 
-	render() {
-    return(
-      <h3>Placeholder all cases page</h3>
+  render() {
+    return (
+      <main className="container">
+        <Counters />
+      </main>
     );
   }
 }

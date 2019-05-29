@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Counter from "./counter";
+import firebase from "../../firebase.js";
 
 class Counters extends Component {
   state = {

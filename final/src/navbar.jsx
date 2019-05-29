@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import {Link}               from "react-router-dom"
+import { Link } from "react-router-dom";
 
 class NavBar extends Component {
   styles = {
@@ -41,13 +41,14 @@ class NavBar extends Component {
         >
           <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
             <li class="nav-item">
-              <Link class="nav-link" to="/pastcases">Past Cases</Link>
+              <Link class="nav-link" to="/cases">
+                All Cases
+              </Link>
             </li>
             <li class="nav-item">
-              <Link class="nav-link" to="/cases">Current Cases</Link>
-            </li>
-            <li class="nav-item">
-              <Link class="nav-link" to="/newcase">New Case</Link>
+              <Link class="nav-link" to="/newcase">
+                New Case
+              </Link>
             </li>
           </ul>
         </div>
