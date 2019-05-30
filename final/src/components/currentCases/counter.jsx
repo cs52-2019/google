@@ -9,6 +9,8 @@ class Counter extends Component {
             src={this.props.counter.imgsource}
             class="card-img-top"
             alt="..."
+            width="240"
+            height="170"
           />
           <div class="btn card-body">
             <h5 class="card-title mb-0">{this.props.counter.caseTitle}</h5>

@@ -7,47 +7,36 @@ class Counters extends Component {
     counters: [
       {
         id: 1,
-        caseTitle: "Vinnytsia Poultry Farm",
-        imgsource:
-          "https://www.qualikoglobal.com/wp-content/uploads/2018/11/vinnytsia-2.png"
+        caseTitle: null,
+        imgsource: null
       },
       {
         id: 2,
-        caseTitle: "Mexico Corn Crisis",
-        imgsource:
-          "https://newfoodeconomy.org/wp-content/uploads/2018/07/Floriano-Garcia-Delfin-plants-heirloom-corn-Mexico-July-2018-1024x685.jpg"
+        caseTitle: null,
+        imgsource: null
       },
       {
         id: 3,
-        caseTitle: "Mexico Corn Crisis",
-        imgsource:
-          "https://newfoodeconomy.org/wp-content/uploads/2018/07/Floriano-Garcia-Delfin-plants-heirloom-corn-Mexico-July-2018-1024x685.jpg"
+        caseTitle: null,
+        imgsource: null
       },
       {
         id: 4,
-        caseTitle: "Mexico Corn Crisis",
-        imgsource:
-          "https://newfoodeconomy.org/wp-content/uploads/2018/07/Floriano-Garcia-Delfin-plants-heirloom-corn-Mexico-July-2018-1024x685.jpg"
-      },
-      {
-        id: 5,
-        caseTitle: "Mexico Corn Crisis",
-        imgsource:
-          "https://newfoodeconomy.org/wp-content/uploads/2018/07/Floriano-Garcia-Delfin-plants-heirloom-corn-Mexico-July-2018-1024x685.jpg"
+        caseTitle: null,
+        imgsource: null
       }
     ]
   };
 
   componentWillMount() {
-    // Get reference to "cases/" path in database
     const cases = firebase.database().ref("cases");
     const counters = [...this.state.counters];
-    // Get actual data from that reference
     cases.once("value", snapshot => {
       var allCases = snapshot.val();
       var num = 0;
       Object.keys(allCases).forEach(key => {
         counters[num].caseTitle = allCases[key].title;
+        counters[num].imgsource = allCases[key].imageLink;
         console.log(key.title);
         num++;
       });

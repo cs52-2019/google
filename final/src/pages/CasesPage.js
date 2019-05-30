@@ -20,24 +20,6 @@ class CasesPage extends React.Component {
   | For reference, CasePage does something very similar, except it loads all
   | analyses for a given case.
   */
-  componentWillMount() {
-    // Get reference to "cases/" path in database
-    const cases = firebase.database().ref("cases");
-    // Get actual data from that reference
-    cases.on("value", snapshot => {
-      var allCases = snapshot.val();
-      console.log(
-        "These are all the cases from the Firebase database. It should look like a large object; you can open it up and look inside too."
-      );
-      console.log(allCases);
-      console.log(
-        "This is us looping through the list of all the keys (case titles)"
-      );
-      Object.keys(allCases).forEach(key => {
-        console.log(key);
-      });
-    });
-  }
 
   render() {
     return (

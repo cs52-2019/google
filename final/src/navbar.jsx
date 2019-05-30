@@ -14,12 +14,14 @@ class NavBar extends Component {
           type="submit"
           style={{ position: "absolute", left: "50px", top: "40px" }}
         >
-          <img
-            src="https://www.lawctopus.com/wp-content/uploads/2017/12/Accountability-Counsel-Logo-1024x261.jpg"
-            width="240"
-            height="70"
-            alt=""
-          />
+          <Link class="nav-link" to="/">
+            <img
+              src="https://www.lawctopus.com/wp-content/uploads/2017/12/Accountability-Counsel-Logo-1024x261.jpg"
+              width="240"
+              height="70"
+              alt=""
+            />
+          </Link>
         </button>
         <button
           class="navbar-toggler"
