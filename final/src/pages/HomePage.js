@@ -11,28 +11,22 @@ class HomePage extends React.Component {
     return (
       <div class="container text-center">
         <div class="row pb-2">
-          <button type="button" class="btn btn-info btn-lg w-50 mx-auto">
-            <Link
-              component={RouterLink}
-              to={"/cases/"}
-              style={{ color: "white" }}
-            >
-              {" "}
-              All Cases
-            </Link>
-          </button>
+          <a
+            href={"/cases"}
+            class="btn btn-info btn-lg w-50 mx-auto"
+            role="button"
+          >
+            All Cases
+          </a>
         </div>
         <div class="row pb-2">
-          <button type="button" class="btn btn-info btn-lg w-50 mx-auto">
-            <Link
-              component={RouterLink}
-              to={"/newcase/"}
-              style={{ color: "white" }}
-            >
-              {" "}
-              New Cases
-            </Link>
-          </button>
+          <a
+            href={"/newcase/"}
+            class="btn btn-info btn-lg w-50 mx-auto"
+            role="button"
+          >
+            New Case
+          </a>
         </div>
       </div>
     );
