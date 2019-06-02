@@ -69,6 +69,7 @@ class Map extends React.Component {
       clickableIcons: false
     }
     this.map = new window.google.maps.Map(document.getElementById("map"), mapOptions);
+    console.log(this.map);
 
     this.map.addListener("bounds_changed", () => {
       this.props.onBoundsChange(this.map.getCenter(), this.map.getZoom());
