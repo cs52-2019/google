@@ -18,11 +18,15 @@ class Counters extends Component {
       var num = 0;
 
       Object.keys(allCases).forEach(key => {
+        var currCase = allCases[key];
+
         counters[num] = {
           id: num,
-          caseTitle: allCases[key].title,
-          imgsource: allCases[key].imageLink
+          caseId: key,
+          caseTitle: currCase.title,
+          imgsource: currCase.imageLink
         }
+
         num++;
       });
 
@@ -37,7 +41,11 @@ class Counters extends Component {
         style={{ position: "absolute", left: "70px", top: "180px" }}
       >
         {this.state.counters.map(counter => (
-          <Counter key={counter.id} counter={counter} />
+          <Counter
+            key={counter.id}
+            counter={counter}
+            url={`/cases/${counter.caseId}`}
+          />
         ))}
       </div>
     );

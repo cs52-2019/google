@@ -82,13 +82,16 @@ class NewCase extends React.Component {
     console.log(ReactDOM.findDOMNode(this.refs.caseTitle).value);
 
     const analysisDB = firebase.database().ref("cases");
-    const caseName = ReactDOM.findDOMNode(this.refs.caseTitle).value;
+    const caseTitle = ReactDOM.findDOMNode(this.refs.caseTitle).value;
+    // case ID for URL: lower case and replace spaces with underscores
+    const caseId = caseTitle.toLowerCase().replace(/ /g,"_");
+
     firebase
       .database()
-      .ref("cases/" + caseName)
+      .ref("cases/" + caseId)
       .set({
-        title: caseName,
-        caseDescription: ReactDOM.findDOMNode(this.refs.caseDescription).value,
+        title: caseTitle,
+        description: ReactDOM.findDOMNode(this.refs.caseDescription).value,
         mapCenter: this.caseInfo.mapCenter,
         mapZoom: this.caseInfo.mapZoom,
         mapFilter: this.state.mapFilter,
