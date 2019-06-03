@@ -3,34 +3,26 @@ import Counter from "./counter";
 import firebase from "../../firebase.js";
 
 class Counters extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      counters: []
-    };
-  }
+  state = {
+    counters: []
+  };
 
   componentWillMount() {
     const cases = firebase.database().ref("cases");
     const counters = [];
     cases.once("value", snapshot => {
       var allCases = snapshot.val();
-      var num = 0;
+      console.log(allCases);
 
+      let counter = [];
       Object.keys(allCases).forEach(key => {
-        var currCase = allCases[key];
-
-        counters[num] = {
-          id: num,
-          caseId: key,
-          caseTitle: currCase.title,
-          imgsource: currCase.imageLink
-        }
-
-        num++;
+        let newCase = {};
+        newCase["caseTitle"] = allCases[key].title;
+        newCase["imgsource"] = allCases[key].imageLink;
+        newCase["id"] = key;
+        counter.push(newCase);
       });
-
-      this.setState({ counters: counters });
+      this.setState({ counters: counter });
     });
   }
 
@@ -38,7 +30,7 @@ class Counters extends Component {
     return (
       <div
         className="card-deck"
-        style={{ position: "absolute", left: "70px", top: "180px" }}
+        style={{ position: "absolute", left: "90px", top: "180px" }}
       >
         {this.state.counters.map(counter => (
           <Counter

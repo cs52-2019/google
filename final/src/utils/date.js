@@ -4,6 +4,7 @@ const FREQUENCIES = [
   'Every week',
   'Every month',
   'Every three months',
+  'Every year',
 ];
 
 class DateRange {
@@ -30,6 +31,10 @@ class DateRange {
       case 'Every three months':
         this.numDates = Math.ceil(diff.asMonths() / 3);
         this.interval = moment.duration(3, 'months');
+        break;
+      case 'Every year':
+        this.numDates = Math.ceil(diff.asYears());
+        this.interval = moment.duration(1, 'years');
         break;
     }
 
