@@ -74,7 +74,7 @@ class CasePage extends React.Component {
             </Col>
 
             <Col className="text-right">
-              <Button variant="contained" onClick={this.handleShowModal}>
+              <Button variant="primary" onClick={this.handleShowModal}>
                 <GoPlus/> Create analysis
               </Button>
             </Col>
@@ -102,7 +102,7 @@ class CasePage extends React.Component {
           onHide={this.handleCloseModal}
         >
           <NewAnalysisPopup
-            caseId={this.props.caseId}
+            caseId={this.props.match.params.caseId}
             onSave={this.handleCloseModal.bind(this)}
           />
         </VerticallyCenteredModal>

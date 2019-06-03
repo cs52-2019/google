@@ -7,20 +7,17 @@ import LocationSearchBar from '../inputs/LocationSearchBar.js'
 import FilterRadios      from '../inputs/FilterRadios.js'
 import InlineDropdown    from '../inputs/InlineDropdown.js'
 
-import Container    from 'react-bootstrap/Container';
-import Row          from 'react-bootstrap/Row';
-import Col          from 'react-bootstrap/Col';
-import Form         from 'react-bootstrap/Form';
-import Button       from 'react-bootstrap/Button';
+import Container         from 'react-bootstrap/Container';
+import Row               from 'react-bootstrap/Row';
+import Col               from 'react-bootstrap/Col';
+import Form              from 'react-bootstrap/Form';
+import Button            from 'react-bootstrap/Button';
 
-import firebase     from '../../firebase.js';
+import firebase          from '../../firebase.js';
+import { FREQUENCIES }   from '../../utils/date.js';
 var moment = require('moment');
 
-const FREQUENCIES = [
-  'Every day',
-  'Every week',
-  'Every month'
-]
+
 
 class NewAnalysisPopup extends React.Component {
   constructor(props) {
@@ -79,7 +76,7 @@ class NewAnalysisPopup extends React.Component {
   }
 
   handleSave(e) {
-    console.log("SAVING " + `cases/${this.props.caseId}/analyses`);
+    console.log(`SAVING cases/${this.props.caseId}/analyses`);
     e.preventDefault();
 
     const analyses = firebase.database().ref(`cases/${this.props.caseId}/analyses`);

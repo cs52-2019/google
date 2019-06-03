@@ -1,56 +1,53 @@
 import React from "react";
+import ReactDOM from "react-dom";
 
 import Map from "../components/Map.js";
 import InlineDatePicker from "../components/inputs/InlineDatePicker.js";
 import LocationSearchBar from "../components/inputs/LocationSearchBar.js";
 import FilterRadios from "../components/inputs/FilterRadios.js";
-import InlineDropdown from "../components/inputs/InlineDropdown.js";
 
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import InputGroup from "react-bootstrap/InputGroup";
-import firebase from "../firebase.js";
-import ReactDOM from "react-dom";
 
-const FREQUENCIES = ["Every day", "Every week", "Every month"];
+import firebase from "../firebase.js";
+
+import { withRouter } from 'react-router-dom';
 
 class NewCase extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      mapLocation: {
-        lat: 48.611639, // Ukraine
-        lng: 29.178028 // Ukraine
-      },
-      mapFilter: "Satellite",
-      mapStartDate: new Date(),
-      caseDescription: "None",
-      mapFrequency: "Every day"
-    };
 
     // Analysis info that doesn't require map refresh
-    this.analysisInfo = {
+    this.caseInfo = {
       // TODO: mapCenter and mapZoom should come from database
       mapCenter: {
         lat: 48.611639, // Ukraine
         lng: 29.178028 // Ukraine
       },
-      mapZoom: 8
+      mapZoom: 8,
+      mapStartDate: new Date(),
+      caseDescription: "None",
+      mapFrequency: "Every day"
+    };
+
+    this.state = {
+      mapSearchLocation: this.caseInfo.mapCenter,
+      mapFilter: "Satellite"
     };
   }
 
-  handleLocationChange(location) {
+  handleSearchLocationChange(location) {
     this.setState({
-      mapLocation: location
+      mapSearchLocation: location
     });
   }
 
   handleBoundsChange(center, zoom) {
-    this.analysisInfo.mapZoom = zoom;
-    this.analysisInfo.mapCenter = {
+    this.caseInfo.mapZoom = zoom;
+    this.caseInfo.mapCenter = {
       lat: center.lat(),
       lng: center.lng()
     };
@@ -64,24 +61,15 @@ class NewCase extends React.Component {
   }
 
   handleStartDateChange(date) {
-    console.log(`start date = ${date}`);
-    this.setState({
-      mapStartDate: date
-    });
+    this.caseInfo.mapStartDate = date;
   }
 
   handleCaseDescriptionChange(description) {
-    console.log(`case description= ${description}`);
-    this.setState({
-      caseDescription: description
-    });
+    this.caseInfo.caseDescription = description;
   }
 
   handleFrequencyChange(freq) {
-    console.log(`freq = ${freq}`);
-    this.setState({
-      mapFrequency: freq
-    });
+    this.caseInfo.mapFrequency = freq;
   }
 
   handleSave(e) {
@@ -89,19 +77,26 @@ class NewCase extends React.Component {
     console.log("SAVING");
     console.log(ReactDOM.findDOMNode(this.refs.caseTitle).value);
 
-    const analysisDB = firebase.database().ref("cases");
-    const caseName = ReactDOM.findDOMNode(this.refs.caseTitle).value;
+    const caseTitle = ReactDOM.findDOMNode(this.refs.caseTitle).value;
+    // case ID for URL: lower case and replace spaces with underscores
+    const caseId = caseTitle.toLowerCase().replace(/ /g,"_");
+
     firebase
       .database()
-      .ref("cases/" + caseName)
+      .ref("cases/" + caseId)
       .set({
-        caseDescription: ReactDOM.findDOMNode(this.refs.caseDescription).value,
-        mapCenter: this.analysisInfo.mapCenter,
-        mapZoom: this.analysisInfo.mapZoom,
+        title: caseTitle,
+        description: ReactDOM.findDOMNode(this.refs.caseDescription).value,
+        mapCenter: this.caseInfo.mapCenter,
+        mapZoom: this.caseInfo.mapZoom,
         mapFilter: this.state.mapFilter,
-        mapStartDate: this.state.mapStartDate,
-        mapFrequency: this.state.mapFrequency
+        mapStartDate: this.caseInfo.mapStartDate,
+        mapFrequency: this.caseInfo.mapFrequency
       });
+
+    // Redirect to CasesPage
+    this.props.history.push('/cases');
+
   }
 
   render() {
@@ -129,7 +124,7 @@ class NewCase extends React.Component {
                 <InlineDatePicker
                   leftCol={4}
                   rightCol={8}
-                  initialDate={this.state.mapStartDate}
+                  initialDate={this.caseInfo.mapStartDate}
                   label="Start Date"
                   onChange={this.handleStartDateChange.bind(this)}
                 />
@@ -144,8 +139,8 @@ class NewCase extends React.Component {
 
                 <Form.Group>
                   <LocationSearchBar
-                    location={this.state.mapLocation}
-                    onChange={this.handleLocationChange.bind(this)}
+                    location={this.state.mapSearchLocation}
+                    onChange={this.handleSearchLocationChange.bind(this)}
                   />
                 </Form.Group>
 
@@ -162,8 +157,9 @@ class NewCase extends React.Component {
             </Col>
             <Col sm={8}>
               <Map
-                location={this.state.mapLocation}
+                location={this.state.mapSearchLocation}
                 filter={this.state.mapFilter}
+                zoom={this.caseInfo.mapZoom}
                 onBoundsChange={this.handleBoundsChange.bind(this)}
               />
             </Col>
@@ -174,4 +170,4 @@ class NewCase extends React.Component {
   }
 }
 
-export default NewCase;
+export default withRouter(NewCase);

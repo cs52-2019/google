@@ -7,13 +7,14 @@ class Counters extends Component {
     counters: []
   };
 
+
   componentWillMount() {
     const cases = firebase.database().ref("cases");
-    const counters = [...this.state.counters];
+    const counters = [];
     cases.once("value", snapshot => {
       var allCases = snapshot.val();
       console.log(allCases);
-      var num = 0;
+
       let counter = [];
       Object.keys(allCases).forEach(key => {
         let newCase = {};
@@ -24,17 +25,23 @@ class Counters extends Component {
         counter.push(newCase);
       });
       this.setState({ counters: counter });
-    });
+
+      });
+
   }
 
   render() {
     return (
       <div
-        class="card-deck"
+        className="card-deck"
         style={{ position: "absolute", left: "70px", top: "180px" }}
       >
         {this.state.counters.map(counter => (
-          <Counter key={counter.id} counter={counter} />
+          <Counter
+            key={counter.id}
+            counter={counter}
+            url={`/cases/${counter.caseId}`}
+          />
         ))}
       </div>
     );

@@ -1,5 +1,4 @@
 import React from "react";
-import firebase from "../firebase.js";
 import Counters from "../components/currentCases/counters";
 
 class CasesPage extends React.Component {
