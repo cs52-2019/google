@@ -10,7 +10,7 @@ class Counter extends Component {
             class="card-img-top"
             alt="..."
             height="170"
-            style={{"object-fit": "cover"}}
+            style={{"objectFit": "cover"}}
           />
           <div class="card-body">
             <h5 class="card-title mb-0">{this.props.counter.caseTitle}</h5>

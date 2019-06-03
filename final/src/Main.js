@@ -19,7 +19,7 @@ class Main extends React.Component {
     return (
       <main>
         <div>
-          <Grid container spacing={8}>
+          <Grid container>
             <Grid item xs={12}>
               <NavBar />
             </Grid>

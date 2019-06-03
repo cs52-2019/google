@@ -14,7 +14,7 @@ class NavBar extends Component {
           type="submit"
           style={{ position: "absolute", left: "50px", top: "40px" }}
         >
-          <Link class="nav-link" to="/">
+          <Link className="nav-link" to="/">
             <img
               src="https://www.lawctopus.com/wp-content/uploads/2017/12/Accountability-Counsel-Logo-1024x261.jpg"
               width="240"
@@ -43,12 +43,12 @@ class NavBar extends Component {
         >
           <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
             <li class="nav-item">
-              <Link class="nav-link" to="/cases">
+              <Link className="nav-link" to="/cases">
                 All Cases
               </Link>
             </li>
             <li class="nav-item">
-              <Link class="nav-link" to="/newcase">
+              <Link className="nav-link" to="/newcase">
                 New Case
               </Link>
             </li>

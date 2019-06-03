@@ -5,20 +5,16 @@ import Map from "../components/Map.js";
 import InlineDatePicker from "../components/inputs/InlineDatePicker.js";
 import LocationSearchBar from "../components/inputs/LocationSearchBar.js";
 import FilterRadios from "../components/inputs/FilterRadios.js";
-import InlineDropdown from "../components/inputs/InlineDropdown.js";
 
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import InputGroup from "react-bootstrap/InputGroup";
 
 import firebase from "../firebase.js";
 
 import { withRouter } from 'react-router-dom';
-
-const FREQUENCIES = ["Every day", "Every week", "Every month"];
 
 class NewCase extends React.Component {
   constructor(props) {
@@ -81,7 +77,6 @@ class NewCase extends React.Component {
     console.log("SAVING");
     console.log(ReactDOM.findDOMNode(this.refs.caseTitle).value);
 
-    const analysisDB = firebase.database().ref("cases");
     const caseTitle = ReactDOM.findDOMNode(this.refs.caseTitle).value;
     // case ID for URL: lower case and replace spaces with underscores
     const caseId = caseTitle.toLowerCase().replace(/ /g,"_");
