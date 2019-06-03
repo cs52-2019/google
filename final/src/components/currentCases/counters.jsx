@@ -7,7 +7,6 @@ class Counters extends Component {
     counters: []
   };
 
-
   componentWillMount() {
     const cases = firebase.database().ref("cases");
     const counters = [];
@@ -21,20 +20,17 @@ class Counters extends Component {
         newCase["caseTitle"] = allCases[key].title;
         newCase["imgsource"] = allCases[key].imageLink;
         newCase["id"] = key;
-        console.log(key);
         counter.push(newCase);
       });
       this.setState({ counters: counter });
-
-      });
-
+    });
   }
 
   render() {
     return (
       <div
         className="card-deck"
-        style={{ position: "absolute", left: "70px", top: "180px" }}
+        style={{ position: "absolute", left: "90px", top: "180px" }}
       >
         {this.state.counters.map(counter => (
           <Counter

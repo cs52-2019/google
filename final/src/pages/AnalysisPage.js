@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 
-import DateSlider                 from '../components/analysis/DateSlider.js';
+import DateSlider from "../components/analysis/DateSlider.js";
 
-import Container                  from 'react-bootstrap/Container';
-import Row                        from 'react-bootstrap/Row';
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
 
-import firebase                   from '../firebase.js';
+import firebase from "../firebase.js";
 
 class AnalysisPage extends React.Component {
   constructor(props) {
@@ -16,13 +16,19 @@ class AnalysisPage extends React.Component {
       title: "",
       startDate: "",
       endDate: "",
-      frequency: "",
-    }
+      frequency: ""
+    };
   }
 
   componentWillMount() {
-    const db = firebase.database().ref(`cases/${this.props.match.params.caseId}/analyses/${this.props.match.params.analysisId}`);
-    db.on('value', (snapshot) => {
+    const db = firebase
+      .database()
+      .ref(
+        `cases/${this.props.match.params.caseId}/analyses/${
+          this.props.match.params.analysisId
+        }`
+      );
+    db.on("value", snapshot => {
       var analysis = snapshot.val();
       if (analysis == null) return;
       this.setState({
@@ -30,8 +36,8 @@ class AnalysisPage extends React.Component {
         title: analysis.name,
         startDate: analysis.startDate,
         endDate: analysis.endDate,
-        frequency: analysis.frequency,
-      })
+        frequency: analysis.frequency
+      });
     });
   }
 
@@ -39,29 +45,28 @@ class AnalysisPage extends React.Component {
     console.log(date);
   }
 
-	render() {
+  render() {
     if (this.state.ready) {
       return (
         <div>
           <Container>
-          <Row>
-            <h2>{this.state.title}</h2>
-          </Row>
+            <Row>
+              <h2>{this.state.title}</h2>
+            </Row>
 
-          <Row>
-            <h3>Parameters</h3>
+            <Row>
+              <h3>Parameters</h3>
+            </Row>
 
-          </Row>
-
-          <Row>
-            <h3>Results</h3>
-            <DateSlider
-              startDate={this.state.startDate}
-              endDate={this.state.endDate}
-              frequency={this.state.frequency}
-              handleSlider={this.handleSlider.bind(this)}
-            />
-          </Row>
+            <Row>
+              <h3>Results</h3>
+              <DateSlider
+                startDate={this.state.startDate}
+                endDate={this.state.endDate}
+                frequency={this.state.frequency}
+                handleSlider={this.handleSlider.bind(this)}
+              />
+            </Row>
           </Container>
         </div>
       );
@@ -72,7 +77,7 @@ class AnalysisPage extends React.Component {
             <span className="sr-only">Loading...</span>
           </div>
         </div>
-      )
+      );
     }
   }
 }
