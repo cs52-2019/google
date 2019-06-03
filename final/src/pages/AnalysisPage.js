@@ -17,10 +17,13 @@ class AnalysisPage extends React.Component {
       startDate: "",
       endDate: "",
       frequency: "",
+      imageURL: "",
+      imageReady: false
     }
   }
 
   componentWillMount() {
+    // Get analysis info from database
     const db = firebase.database().ref(`cases/${this.props.match.params.caseId}/analyses/${this.props.match.params.analysisId}`);
     db.on('value', (snapshot) => {
       var analysis = snapshot.val();
@@ -32,11 +35,38 @@ class AnalysisPage extends React.Component {
         endDate: analysis.endDate,
         frequency: analysis.frequency,
       })
+
+      // Get image URL from storage
+      this.getImageURL("2/1/19");
     });
   }
 
+  getImageURL(date) {
+    const test = {
+      '2/1/19': '2014.tif',
+      '3/1/19': '2015.tif',
+      '4/1/19': '2016.tif',
+      '5/1/19': '2017.tif'
+    }
+    const storage = firebase.storage().ref();
+    var imgRef = storage.child(test[date]);
+    imgRef.getDownloadURL().then((url) => {
+      console.log("GOT URL");
+      this.setState({
+        imageReady: true,
+        imageURL: url
+      });
+    }).catch((error) => {
+      console.log("Firebase storage error: " + error);
+    })
+  }
+
   handleSlider(date) {
-    console.log(date);
+    this.setState({
+      imageReady: false
+    });
+
+    this.getImageURL(date);
   }
 
 	render() {
@@ -61,6 +91,18 @@ class AnalysisPage extends React.Component {
               frequency={this.state.frequency}
               handleSlider={this.handleSlider.bind(this)}
             />
+            <div id="analysis-img">
+            <img src={this.state.imageURL}/>
+            {/*
+              this.state.imageReady ?
+              <img src={this.state.imageURL}/> :
+              <div className="text-center">
+                <div className="spinner-border" role="status">
+                  <span className="sr-only">Loading...</span>
+                </div>
+              </div>
+            */}
+            </div>
           </Row>
           </Container>
         </div>

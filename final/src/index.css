@@ -85,3 +85,7 @@ div#date-slider div.rangeslider__handle-tooltip {
 	padding: 0px 10px;
 	width: 70px;
 }
+
+div#analysis-img {
+	margin-top: 40px;
+}

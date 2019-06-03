@@ -24,23 +24,23 @@ class DateSlider extends React.Component {
       this.labels[i] = this.valToDate(i);
     }
 
-    console.log('done with constructor')
+    // console.log('done with constructor')
   }
 
   valToDate(val) {
-    console.log('in valToDate')
+    // console.log('in valToDate')
     return this.dates[val];
   }
 
   handleSlider(val) {
-    console.log('in handleSlider')
+    // console.log('in handleSlider')
     this.setState({
       val: val,
     });
   }
 
   sendValue() {
-    console.log('in sendValue')
+    // console.log('in sendValue')
     this.props.handleSlider(this.valToDate(this.state.val));
   }
 
