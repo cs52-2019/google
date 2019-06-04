@@ -14,8 +14,8 @@ const HARDCODED_OVERLAYS = {
     token: "b0502f0edca6589a1eb345c45e1c4081"
   },
   no2: {
-    mapid: "adb254ea85b8709df52a317834c9445f",
-    token: "51c282eb7065e297ffc7eb6537a78559"
+    mapid: "f3c92c2a304aff5fc585b728b26555d4",
+    token: "7f2305ff09bde8888add6c6553cfdad6"
   }
 }
 
@@ -71,8 +71,15 @@ class Map extends React.Component {
     this.map = new window.google.maps.Map(document.getElementById("map"), mapOptions);
     console.log(this.map);
 
-    this.map.addListener("bounds_changed", () => {
-      this.props.onBoundsChange(this.map.getCenter(), this.map.getZoom());
+    this.map.addListener("idle", () => {
+      var bounds = this.map.getBounds();
+
+      this.props.onBoundsChange(
+        this.map.getCenter(),
+        this.map.getZoom(),
+        bounds.getNorthEast(),
+        bounds.getSouthWest()
+      );
     });
 
     // this.loadEEHandler("d4fe9ece09ecb967b2fb3c4145723001", "8b393c7d898d21ff94146e1f56e3d2e0");

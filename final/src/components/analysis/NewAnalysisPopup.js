@@ -67,7 +67,13 @@ class NewAnalysisPopup extends React.Component {
     this.analysisInfo.frequency = freq;
   }
 
-  handleBoundsChange(center, zoom) {
+  handleBoundsChange(center, zoom, northeast, southwest) {
+    console.log('northeast');
+    console.log(`${northeast.lat()}, ${northeast.lng()}`);
+    console.log('southwest');
+    console.log(`${southwest.lat()}, ${southwest.lng()}`);
+    console.log('center');
+    console.log(center);
     this.analysisInfo.mapZoom = zoom;
     this.analysisInfo.mapCenter = {
       lat: center.lat(),

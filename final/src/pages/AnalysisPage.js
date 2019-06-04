@@ -4,8 +4,11 @@ import DateSlider from "../components/analysis/DateSlider.js";
 
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Row";
 import NavBar from "../navbar";
 import firebase from "../firebase.js";
+
+var moment = require('moment');
 
 class AnalysisPage extends React.Component {
   constructor(props) {
@@ -20,16 +23,15 @@ class AnalysisPage extends React.Component {
       imageURL: "",
       imageReady: false
     }
+
+    this.caseId = this.props.match.params.caseId;
+    this.analysisId = this.props.match.params.analysisId;
   }
 
   componentWillMount() {
     const db = firebase
       .database()
-      .ref(
-        `cases/${this.props.match.params.caseId}/analyses/${
-          this.props.match.params.analysisId
-        }`
-      );
+      .ref(`cases/${this.caseId}/analyses/${this.analysisId}`);
     db.on("value", snapshot => {
       var analysis = snapshot.val();
       if (analysis == null) return;
@@ -39,22 +41,19 @@ class AnalysisPage extends React.Component {
         startDate: analysis.startDate,
         endDate: analysis.endDate,
         frequency: analysis.frequency,
+        filter: analysis.filter,
       });
 
       // Get image URL from storage
-      this.getImageURL("2/1/19");
+      this.getImageURL(analysis.startDate);
     });
   }
 
   getImageURL(date) {
-    const test = {
-      '2/1/19': '2014.tif',
-      '3/1/19': '2015.tif',
-      '4/1/19': '2016.tif',
-      '5/1/19': '2017.tif'
-    }
+    const dateStr = moment(date).format("YYYY-MM-DD");
     const storage = firebase.storage().ref();
-    var imgRef = storage.child(test[date]);
+    console.log(`${this.caseId}_${this.analysisId}_${dateStr}.tif`);
+    var imgRef = storage.child(`${this.caseId}_${this.analysisId}_${dateStr}.tif`);
     imgRef.getDownloadURL().then((url) => {
       console.log("GOT URL");
       this.setState({
@@ -76,6 +75,9 @@ class AnalysisPage extends React.Component {
 
   render() {
     if (this.state.ready) {
+      const startDate = moment(this.state.startDate, moment.ISO_8601).format('M/D/YY');
+      const endDate = moment(this.state.endDate, moment.ISO_8601).format('M/D/YY');
+
       return (
         <div>
           <NavBar />
@@ -86,6 +88,11 @@ class AnalysisPage extends React.Component {
 
             <Row>
               <h3>Parameters</h3>
+              <p style={{'width': '100%'}}>
+                Time range: {startDate} - {endDate} <br/>
+                Frequency: {this.state.frequency} <br/>
+                Selected filter: {this.state.filter}
+              </p>
             </Row>
 
             <Row>
@@ -98,15 +105,6 @@ class AnalysisPage extends React.Component {
               />
               <div id="analysis-img">
               <img src={this.state.imageURL}/>
-              {/*
-                this.state.imageReady ?
-                <img src={this.state.imageURL}/> :
-                <div className="text-center">
-                  <div className="spinner-border" role="status">
-                    <span className="sr-only">Loading...</span>
-                  </div>
-                </div>
-              */}
               </div>
             </Row>
           </Container>

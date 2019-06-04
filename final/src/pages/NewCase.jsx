@@ -46,7 +46,7 @@ class NewCase extends React.Component {
     });
   }
 
-  handleBoundsChange(center, zoom) {
+  handleBoundsChange(center, zoom, northeast, southwest) {
     this.caseInfo.mapZoom = zoom;
     this.caseInfo.mapCenter = {
       lat: center.lat(),
