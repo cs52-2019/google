@@ -13,16 +13,14 @@ import NavBar from "./navbar.jsx";
 class Main extends React.Component {
   constructor(props) {
     super(props);
+    this.state = { isNotHomePage: false };
   }
 
   render() {
     return (
       <main>
         <div>
-          <Grid container spacing={8}>
-            <Grid item xs={12}>
-              <NavBar />
-            </Grid>
+          <Grid container>
             <Grid item sm={12}>
               <Switch>
                 {/* Example: localhost:3000/ */}

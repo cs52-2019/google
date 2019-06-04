@@ -12,6 +12,7 @@ import * as serviceWorker from './serviceWorker';
  | Bootstrap React component: https://react-bootstrap.github.io/components/navbar/
  */
 import 'bootstrap/dist/css/bootstrap.css';
+import 'react-rangeslider/lib/index.css'
 import './index.css';
 
 import {BrowserRouter} from 'react-router-dom';

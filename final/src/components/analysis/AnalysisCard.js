@@ -5,10 +5,6 @@ import Card                     from 'react-bootstrap/Card';
 var moment = require('moment');
 
 class AnalysisCard extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const analysis = this.props.analysis;
     const startDate = moment(analysis.startDate, moment.ISO_8601).format('M/D/YY');

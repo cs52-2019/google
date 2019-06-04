@@ -54,3 +54,34 @@ div.date-picker input {
 div#new-analysis-modal {
 	min-width: 85%;
 }
+
+
+/**************************************************/
+/***************** ANALYSIS DETAIL ****************/
+/**************************************************/
+
+div#date-slider {
+	width: 100%;
+}
+
+div#date-slider div.rangeslider {
+	box-shadow: none;
+}
+
+div#date-slider div.rangeslider__fill {
+	box-shadow: none;
+	background-color: #387F9E;
+}
+
+div#date-slider div.rangeslider__handle {
+	box-shadow: none;
+}
+
+div#date-slider div.rangeslider__handle:after {
+	display: none;
+}
+
+div#date-slider div.rangeslider__handle-tooltip {
+	padding: 0px 10px;
+	width: 70px;
+}

@@ -4,7 +4,7 @@ import Map from "../components/Map.js";
 import InlineDatePicker from "../components/inputs/InlineDatePicker.js";
 import LocationSearchBar from "../components/inputs/LocationSearchBar.js";
 import FilterRadios from "../components/inputs/FilterRadios.js";
-import InlineDropdown from "../components/inputs/InlineDropdown.js";
+import NavBar from "../navbar.jsx";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -82,10 +82,9 @@ class NewCase extends React.Component {
     e.preventDefault();
     console.log("SAVING");
 
-    const analysisDB = firebase.database().ref("cases");
     const caseTitle = ReactDOM.findDOMNode(this.refs.caseTitle).value;
     // case ID for URL: lower case and replace spaces with underscores
-    const caseId = caseTitle.toLowerCase().replace(/ /g,"_");
+    const caseId = caseTitle.toLowerCase().replace(/ /g, "_");
 
     firebase
       .database()
@@ -107,6 +106,7 @@ class NewCase extends React.Component {
   render() {
     return (
       <div id="new-case">
+        <NavBar />
         <Container>
           <div className="pb-5 mx-auto pl-3">
             <Row className="text-center">
