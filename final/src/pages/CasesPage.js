@@ -1,5 +1,6 @@
 import React from "react";
 import Counters from "../components/currentCases/counters";
+import NavBar from "../navbar";
 
 class CasesPage extends React.Component {
   constructor(props) {
@@ -22,9 +23,12 @@ class CasesPage extends React.Component {
 
   render() {
     return (
-      <main className="container">
-        <Counters />
-      </main>
+      <div>
+        <NavBar />
+        <main className="container">
+          <Counters />
+        </main>
+      </div>
     );
   }
 }
