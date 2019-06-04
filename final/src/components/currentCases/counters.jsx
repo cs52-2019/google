@@ -30,7 +30,12 @@ class Counters extends Component {
     return (
       <div
         className="card-deck"
-        style={{ position: "absolute", left: "90px", top: "180px" }}
+        style={{
+          position: "absolute",
+          left: "90px",
+          top: "180px",
+          right: "90px"
+        }}
       >
         {this.state.counters.map(counter => (
           <Counter
