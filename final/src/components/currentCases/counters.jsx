@@ -36,7 +36,7 @@ class Counters extends Component {
           <Counter
             key={counter.id}
             counter={counter}
-            url={`/cases/${counter.caseId}`}
+            url={`/cases/${counter.id}`}
           />
         ))}
       </div>
