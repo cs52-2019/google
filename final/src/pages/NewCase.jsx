@@ -134,7 +134,7 @@ class NewCase extends React.Component {
                   onChange={this.handleStartDateChange.bind(this)}
                 />
 
-                <Form>
+                <Form className="pt-2">
                   <Form.Row>
                     <Col>
                       <Form.Label>Case Image:</Form.Label>
