@@ -1,21 +1,19 @@
 import React from "react";
 import ReactDOM from "react-dom";
-
 import Map from "../components/Map.js";
 import InlineDatePicker from "../components/inputs/InlineDatePicker.js";
 import LocationSearchBar from "../components/inputs/LocationSearchBar.js";
 import FilterRadios from "../components/inputs/FilterRadios.js";
 import InlineDropdown from "../components/inputs/InlineDropdown.js";
-
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import InputGroup from "react-bootstrap/InputGroup";
-
+import Dropzone from 'react-dropzone';
+import {storage} from '../firebase';
 import firebase from "../firebase.js";
-
 import { withRouter } from 'react-router-dom';
 
 const FREQUENCIES = ["Every day", "Every week", "Every month"];
@@ -23,7 +21,6 @@ const FREQUENCIES = ["Every day", "Every week", "Every month"];
 class NewCase extends React.Component {
   constructor(props) {
     super(props);
-
     // Analysis info that doesn't require map refresh
     this.caseInfo = {
       // TODO: mapCenter and mapZoom should come from database
@@ -34,12 +31,13 @@ class NewCase extends React.Component {
       mapZoom: 8,
       mapStartDate: new Date(),
       caseDescription: "None",
-      mapFrequency: "Every day"
+      mapFrequency: "Every day",
+      caseImage: "",
     };
 
     this.state = {
       mapSearchLocation: this.caseInfo.mapCenter,
-      mapFilter: "Satellite"
+      mapFilter: "Satellite",
     };
   }
 
@@ -72,6 +70,10 @@ class NewCase extends React.Component {
     this.caseInfo.caseDescription = description;
   }
 
+  handleImageLinkChange(imageLink) {
+    this.caseInfo.caseImage = imageLink;
+  }
+
   handleFrequencyChange(freq) {
     this.caseInfo.mapFrequency = freq;
   }
@@ -79,7 +81,6 @@ class NewCase extends React.Component {
   handleSave(e) {
     e.preventDefault();
     console.log("SAVING");
-    console.log(ReactDOM.findDOMNode(this.refs.caseTitle).value);
 
     const analysisDB = firebase.database().ref("cases");
     const caseTitle = ReactDOM.findDOMNode(this.refs.caseTitle).value;
@@ -92,16 +93,15 @@ class NewCase extends React.Component {
       .set({
         title: caseTitle,
         description: ReactDOM.findDOMNode(this.refs.caseDescription).value,
+        imageLink: ReactDOM.findDOMNode(this.refs.caseImage).value,
         mapCenter: this.caseInfo.mapCenter,
         mapZoom: this.caseInfo.mapZoom,
         mapFilter: this.state.mapFilter,
         mapStartDate: this.caseInfo.mapStartDate,
         mapFrequency: this.caseInfo.mapFrequency
       });
-
     // Redirect to CasesPage
     this.props.history.push('/cases');
-
   }
 
   render() {
@@ -133,6 +133,17 @@ class NewCase extends React.Component {
                   label="Start Date"
                   onChange={this.handleStartDateChange.bind(this)}
                 />
+
+                <Form>
+                  <Form.Row>
+                    <Col>
+                      <Form.Label>Case Image:</Form.Label>
+                    </Col>
+                    <Col sm={8}>
+                      <Form.Control ref="caseImage" placeholder="Image URL" />
+                    </Col>
+                  </Form.Row>
+                </Form>
 
                 <Form.Group
                   className="pt-2"
