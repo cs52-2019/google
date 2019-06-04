@@ -4,7 +4,7 @@ import DateSlider from "../components/analysis/DateSlider.js";
 
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
-
+import NavBar from "../navbar";
 import firebase from "../firebase.js";
 
 class AnalysisPage extends React.Component {
@@ -78,6 +78,7 @@ class AnalysisPage extends React.Component {
     if (this.state.ready) {
       return (
         <div>
+          <NavBar />
           <Container>
             <Row>
               <h2>{this.state.title}</h2>

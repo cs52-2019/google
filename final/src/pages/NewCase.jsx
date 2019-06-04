@@ -11,10 +11,11 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import NavBar from "../navbar";
 
 import firebase from "../firebase.js";
 
-import { withRouter } from 'react-router-dom';
+import { withRouter } from "react-router-dom";
 
 class NewCase extends React.Component {
   constructor(props) {
@@ -79,7 +80,7 @@ class NewCase extends React.Component {
 
     const caseTitle = ReactDOM.findDOMNode(this.refs.caseTitle).value;
     // case ID for URL: lower case and replace spaces with underscores
-    const caseId = caseTitle.toLowerCase().replace(/ /g,"_");
+    const caseId = caseTitle.toLowerCase().replace(/ /g, "_");
 
     firebase
       .database()
@@ -95,13 +96,13 @@ class NewCase extends React.Component {
       });
 
     // Redirect to CasesPage
-    this.props.history.push('/cases');
-
+    this.props.history.push("/cases");
   }
 
   render() {
     return (
       <div id="new-case">
+        <NavBar />
         <Container>
           <div className="pb-5 mx-auto pl-3">
             <Row className="text-center">

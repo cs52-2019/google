@@ -21,9 +21,6 @@ class Main extends React.Component {
       <main>
         <div>
           <Grid container>
-            <Grid item xs={12}>
-              {!this.state.isNotHomePage && <NavBar />}
-            </Grid>
             <Grid item sm={12}>
               <Switch>
                 {/* Example: localhost:3000/ */}
