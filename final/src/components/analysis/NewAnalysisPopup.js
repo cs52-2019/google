@@ -14,7 +14,7 @@ import Form              from 'react-bootstrap/Form';
 import Button            from 'react-bootstrap/Button';
 
 import firebase          from '../../firebase.js';
-import { FREQUENCIES }   from '../../utils/date.js';
+import { FREQUENCIES, DateRange }   from '../../utils/date.js';
 var moment = require('moment');
 
 
@@ -26,14 +26,13 @@ class NewAnalysisPopup extends React.Component {
     // Analysis info that doesn't require map refresh
     this.analysisInfo = {
       // TODO: mapCenter and mapZoom should come from database
-      mapCenter: {
-        lat: 48.611639, // Ukraine
-        lng: 29.178028  // Ukraine
-      },
-      mapZoom: 8,
+      mapCenter: this.props.mapCenter,
+      mapSouthwest: {},
+      mapNortheast: {},
+      mapZoom: this.props.mapZoom,
       startDate: new Date(),
       endDate: new Date(),
-      frequency: 'Every day',
+      frequency: 'Every week',
     }
 
     // Analysis info that _does_ require map refresh
@@ -68,12 +67,14 @@ class NewAnalysisPopup extends React.Component {
   }
 
   handleBoundsChange(center, zoom, northeast, southwest) {
-    console.log('northeast');
-    console.log(`${northeast.lat()}, ${northeast.lng()}`);
-    console.log('southwest');
-    console.log(`${southwest.lat()}, ${southwest.lng()}`);
-    console.log('center');
-    console.log(center);
+    this.analysisInfo.mapNortheast = {
+      lat: northeast.lat(),
+      lng: northeast.lng(),
+    }
+    this.analysisInfo.mapSouthwest = {
+      lat: southwest.lat(),
+      lng: southwest.lng(),
+    }
     this.analysisInfo.mapZoom = zoom;
     this.analysisInfo.mapCenter = {
       lat: center.lat(),
@@ -89,6 +90,8 @@ class NewAnalysisPopup extends React.Component {
     const analysis = {
       name: ReactDOM.findDOMNode(this.refs.analysisName).value,
       mapCenter: this.analysisInfo.mapCenter,
+      mapNortheast: this.analysisInfo.mapNortheast,
+      mapSouthwest: this.analysisInfo.mapSouthwest,
       mapZoom: this.analysisInfo.mapZoom,
       filter: this.state.filter,
       startDate: moment(this.analysisInfo.startDate).toISOString(),
@@ -96,9 +99,37 @@ class NewAnalysisPopup extends React.Component {
       frequency: this.analysisInfo.frequency,
     };
     console.log(analysis);
-    analyses.push(analysis);
+
+    analyses.push(analysis).then((snapshot) => {
+      const analysisId = snapshot.key;
+      this.sendEERequests(analysisId);
+    });
 
     this.props.onSave();
+  }
+
+  // Calls local Flask app, which is running EE download script
+  sendEERequests(analysisId) {
+    var dateHelper = new DateRange(
+      this.analysisInfo.startDate,
+      this.analysisInfo.endDate,
+      this.analysisInfo.frequency
+    );
+
+    var dateRanges = dateHelper.getFormattedDateRanges("MM-DD-YYYY");
+
+    dateRanges.forEach(dateRange => {
+      var request = new XMLHttpRequest();
+      request.open("POST", `http://localhost:5000/download_one`, true);
+      request.send(JSON.stringify({
+        'caseId': this.props.caseId,
+        'analysisId': analysisId,
+        'northeast': this.analysisInfo.mapNortheast,
+        'southwest': this.analysisInfo.mapSouthwest,
+        'startDate': dateRange[0],
+        'endDate': dateRange[1]
+      }));
+    })
   }
 
   render() {

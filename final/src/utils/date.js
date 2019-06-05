@@ -53,7 +53,13 @@ class DateRange {
     });
   }
 
-
+  getFormattedDateRanges(format) {
+    return this.dates.map((date) => {
+      var start = moment(date).format(format)
+      var end = moment(date).add(this.interval).subtract(1, 'days').format(format)
+      return [start, end]
+    })
+  }
 }
 
 

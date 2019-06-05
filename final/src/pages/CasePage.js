@@ -24,7 +24,9 @@ class CasePage extends React.Component {
       showModal: false,
       title: "",
       description: "",
-      analyses: {}
+      analyses: {},
+      mapCenter: {},
+      mapZoom: 8,
     };
   }
 
@@ -40,7 +42,9 @@ class CasePage extends React.Component {
       this.setState({
         title: currCase.title,
         description: currCase.description,
-        analyses: currCase.analyses || {}
+        analyses: currCase.analyses || {},
+        mapCenter: currCase.mapCenter,
+        mapZoom: currCase.mapZoom
       });
     });
   }
@@ -105,6 +109,8 @@ class CasePage extends React.Component {
           <NewAnalysisPopup
             caseId={this.props.match.params.caseId}
             onSave={this.handleCloseModal.bind(this)}
+            mapCenter={this.state.mapCenter}
+            mapZoom={this.state.mapZoom}
           />
         </VerticallyCenteredModal>
       </div>

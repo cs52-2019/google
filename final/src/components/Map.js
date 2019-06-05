@@ -38,6 +38,11 @@ class Map extends React.Component {
     if (token) {
       console.log("Done waiting for EE authentication.")
       this.setState({render: true});
+      loadJS(
+        `https://maps.googleapis.com/maps/api/js?key=${
+            GOOGLE_MAPS_API_KEY
+        }&callback=initMap`
+      );
       return;
     }
     setTimeout(this.waitForEEAuth.bind(this), 1000);
@@ -130,11 +135,7 @@ class Map extends React.Component {
       // console.log('rerendering');
       // if (!this.loadedGMapsJS) {
         // Asynchronously load the Google Maps script, passing in the callback reference
-        loadJS(
-          `https://maps.googleapis.com/maps/api/js?key=${
-              GOOGLE_MAPS_API_KEY
-          }&callback=initMap`
-        );
+
 
         // this.loadedGMapsJS = true;
       // }
