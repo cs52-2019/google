@@ -15,12 +15,9 @@ ee_dataset = {
     },
     'Nitrogen dioxide': {
         'collection': 'COPERNICUS/S5P/OFFL/L3_NO2',
-        'bands': ['tropospheric_NO2_column_number_density']
+        'bands': ['NO2_column_number_density']
     }
 }
-
-# def toUnixTimestamp(date):
-#     return int(time.mktime(date.timetuple())) * 1000
 
 def filterCloudsLandsat7(image):
     filled1a = image.focal_mean(2, 'square', 'pixels', 1)
@@ -37,6 +34,8 @@ def get_images_for_dataset(dataset, northeast, southwest, caseId, analysisId, st
         print('Invalid dataset')
         return
 
+    satellite_info = ee_dataset['Satellite']
+
     startDate = parse(startDateStr)
     endDate = parse(endDateStr)
     if startDate > datetime.now() or endDate > datetime.now():
@@ -48,21 +47,46 @@ def get_images_for_dataset(dataset, northeast, southwest, caseId, analysisId, st
 
     ee.Initialize()
 
-    # Get and filter collection
-    collection = ee.ImageCollection(dataset_info['collection']) \
-                   .select(dataset_info['bands']) \
-                   .filterDate(startDateStr, endDateStr) \
-                   .filterBounds(ee.Geometry.Rectangle([min_lng, min_lat, max_lng, max_lat]))
+    # Everyone needs satellite
+    satellite = ee.ImageCollection(satellite_info['collection']) \
+                  .select(satellite_info['bands']) \
+                  .filterBounds(ee.Geometry.Rectangle([min_lng, min_lat, max_lng, max_lat]))
 
-    # Filter cloudy scenes
+
+    # If we only want satellite, filter date properly
     if dataset == 'Satellite':
-        # collection = collection.filter(ee.Filter.lt('CLOUD_COVER', 5))
-        collection = collection.filter(ee.Filter.lt('CLOUD_COVER',25)) \
-                               .map(filterCloudsLandsat7)
+        satellite = satellite.filterDate(startDateStr, endDateStr) \
+                            .filter(ee.Filter.lt('CLOUD_COVER',25)) \
+                            .map(filterCloudsLandsat7)
+        image = satellite.median()
+        output = image.visualize(bands=satellite_info['bands'], min=300, max=1800)
 
-    # Reduce collection to a single image
-    image = collection.median()
-    output = image.visualize(bands=dataset_info['bands'], min=300, max=1800)
+    elif dataset == 'Nitrogen dioxide':
+        # Otherwise we're just using it for an underlay, so use a recent satellite image just to have something as background (TODO match date)
+        satellite = satellite.filterDate('2018-01-01', '2018-12-31') \
+                            .filter(ee.Filter.lt('CLOUD_COVER',25)) \
+                            .map(filterCloudsLandsat7)
+        sat_image = satellite.median()
+        sat_output = sat_image.visualize(bands=satellite_info['bands'], min=300, max=1800)
+
+        # Get and filter actual collection
+        collection = ee.ImageCollection(dataset_info['collection']) \
+                       .select(dataset_info['bands']) \
+                       .filterDate(startDateStr, endDateStr) \
+                       .filterBounds(ee.Geometry.Rectangle([min_lng, min_lat, max_lng, max_lat]))
+        filter_image = collection.mean()
+        filter_output = filter_image.visualize( \
+            bands=dataset_info['bands'], \
+            min=0, \
+            max=.0002, \
+            opacity=.5, \
+            palette=["black", "blue", "purple", "cyan", "green", "yellow", "red"], \
+        )
+
+        output = ee.ImageCollection([
+            sat_output,
+            filter_output
+        ]).mosaic();
 
     # Export to Firebase
     print("about to export")
@@ -77,6 +101,8 @@ def get_images_for_dataset(dataset, northeast, southwest, caseId, analysisId, st
 
     print("process sent to cloud")
 
-# get_images_for_dataset('Satellite', [24, 54], [25, 55], "caseId", "analysisId", "1/1/16", "6/1/16")
+# get_images_for_dataset('Nitrogen dioxide', {'lat': 24, 'lng': 54}, {'lat': 25, 'lng': 55}, "caseId", "analysisId", "1/1/19", "2/1/19")
+# get_images_for_dataset('Satellite', {'lat': 24, 'lng': 54}, {'lat': 25, 'lng': 55}, "caseId", "analysisId", "1/1/18", "12/31/18")
+
 # for year in range(10, 19):
 #     get_images_for_dataset('Satellite', [48.739046872463796, 29.42372907460026], [48.51211900387867, 28.92683376133732], "vinnytsia_poultry_farm", "-LgXk1i_C3DY_4wWHRtI", "1/1/{}".format(year), "12/31/{}".format(year))

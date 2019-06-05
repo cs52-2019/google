@@ -23,13 +23,13 @@ def download():
     ee.Initialize()
 
     get_images_for_dataset(
-        dataset='Satellite',
+        dataset=body['filter'],
         northeast=body['northeast'],
         southwest=body['southwest'],
         caseId=body['caseId'],
         analysisId=body['analysisId'],
         startDateStr=body['startDate'],
-        endDateStr=body['endDate']
+        endDateStr=body['endDate'],
     )
 
     response = jsonify({'ee_hello_world': ee.Number(1).sin().getInfo()})

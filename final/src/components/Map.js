@@ -132,7 +132,7 @@ class Map extends React.Component {
 
   render() {
     if(this.state.render) {
-      // console.log('rerendering');
+      console.log('rerendering');
       // if (!this.loadedGMapsJS) {
         // Asynchronously load the Google Maps script, passing in the callback reference
 

@@ -122,6 +122,7 @@ class NewAnalysisPopup extends React.Component {
       var request = new XMLHttpRequest();
       request.open("POST", `http://localhost:5000/download_one`, true);
       request.send(JSON.stringify({
+        'filter': this.state.filter,
         'caseId': this.props.caseId,
         'analysisId': analysisId,
         'northeast': this.analysisInfo.mapNortheast,
